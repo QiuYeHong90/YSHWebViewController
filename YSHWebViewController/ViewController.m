@@ -38,6 +38,11 @@
          YSHWebViewController * vc = (YSHWebViewController *)segue.destinationViewController;
          vc.urlStr = @"http://www.qiurongkj.com/Luckdraw/index.html?QB=10";
      }
+     
+     if ([segue.identifier isEqualToString:@"YSHWebViewController1"]) {
+         YSHWebViewController * vc = (YSHWebViewController *)segue.destinationViewController;
+         vc.urlStr = @"https://www.baidu.com";
+     }
  }
 
 @end

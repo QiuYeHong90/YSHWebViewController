@@ -286,6 +286,9 @@
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+    
+    NSLog(@"------------");
+    [self updateNavigationItems];
 }
 
 
@@ -342,9 +345,9 @@
 //页面跳转
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     //允许页面跳转
-    //    NSLog(@"%@",navigationAction.request.URL);
+    NSLog(@"%@",navigationAction.request.URL);
     decisionHandler(WKNavigationActionPolicyAllow);
-    
+    [self updateNavigationItems];
 }
 
 #pragma mark - WKScriptMessageHandler

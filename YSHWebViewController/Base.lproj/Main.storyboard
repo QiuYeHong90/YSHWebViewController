@@ -18,23 +18,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2gx-g7-mab">
-                                <rect key="frame" x="164" y="342" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2gx-g7-mab">
+                                <rect key="frame" x="171.5" y="352" width="31" height="27"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="交互">
+                                            <attributes>
+                                                <font key="NSFont" size="15" name=".PingFangSC-Regular"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
                                 <connections>
                                     <segue destination="FHf-2f-8my" kind="push" identifier="YSHWebViewController" id="5bv-nU-6nJ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tz0-Rm-TyE">
+                                <rect key="frame" x="164" y="425.5" width="46" height="30"/>
+                                <state key="normal" title="去百度"/>
+                                <connections>
+                                    <segue destination="FHf-2f-8my" kind="push" identifier="YSHWebViewController1" id="2ts-og-0w7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="2gx-g7-mab" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="HpQ-Kv-Wc5"/>
+                            <constraint firstItem="2gx-g7-mab" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Sg6-rK-rd2"/>
+                            <constraint firstItem="tz0-Rm-TyE" firstAttribute="centerX" secondItem="2gx-g7-mab" secondAttribute="centerX" id="crX-gW-UTT"/>
+                            <constraint firstItem="tz0-Rm-TyE" firstAttribute="top" secondItem="2gx-g7-mab" secondAttribute="bottom" constant="46.5" id="xJr-iD-HZ3"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Qtb-UW-NY4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1056.8" y="118.29085457271366"/>
+            <point key="canvasLocation" x="727" y="39"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="ugR-qk-2W3">
@@ -71,4 +92,7 @@
             <point key="canvasLocation" x="117.59999999999999" y="-579.76011994002999"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="2ts-og-0w7"/>
+    </inferredMetricsTieBreakers>
 </document>
