@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE3E746220C1260B002674B2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FE3E746120C1260B002674B2 /* README.md */; };
+		FE3E746520C1289A002674B2 /* YSHWeakScriptMessageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3E746420C1289A002674B2 /* YSHWeakScriptMessageDelegate.m */; };
 		FEC4EA6220C0ED1500EA2172 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4EA6120C0ED1500EA2172 /* AppDelegate.m */; };
 		FEC4EA6520C0ED1500EA2172 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4EA6420C0ED1500EA2172 /* ViewController.m */; };
 		FEC4EA6820C0ED1500EA2172 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEC4EA6620C0ED1500EA2172 /* Main.storyboard */; };
@@ -16,6 +18,7 @@
 		FEC4EA7A20C0ED1700EA2172 /* YSHWebViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4EA7920C0ED1700EA2172 /* YSHWebViewControllerTests.m */; };
 		FEC4EA8520C0ED1700EA2172 /* YSHWebViewControllerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4EA8420C0ED1700EA2172 /* YSHWebViewControllerUITests.m */; };
 		FEC4EA9520C0ED4B00EA2172 /* YSHWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4EA9420C0ED4B00EA2172 /* YSHWebViewController.m */; };
+		FEC4EA9820C1214900EA2172 /* YSHWebViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FEC4EA9720C1214900EA2172 /* YSHWebViewController.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE3E746120C1260B002674B2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FE3E746320C1289A002674B2 /* YSHWeakScriptMessageDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YSHWeakScriptMessageDelegate.h; sourceTree = "<group>"; };
+		FE3E746420C1289A002674B2 /* YSHWeakScriptMessageDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YSHWeakScriptMessageDelegate.m; sourceTree = "<group>"; };
 		FEC4EA5D20C0ED1500EA2172 /* YSHWebViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YSHWebViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEC4EA6020C0ED1500EA2172 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FEC4EA6120C0ED1500EA2172 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -54,6 +60,7 @@
 		FEC4EA8620C0ED1700EA2172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FEC4EA9320C0ED4B00EA2172 /* YSHWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YSHWebViewController.h; sourceTree = "<group>"; };
 		FEC4EA9420C0ED4B00EA2172 /* YSHWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YSHWebViewController.m; sourceTree = "<group>"; };
+		FEC4EA9720C1214900EA2172 /* YSHWebViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = YSHWebViewController.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +91,7 @@
 		FEC4EA5420C0ED1500EA2172 = {
 			isa = PBXGroup;
 			children = (
+				FE3E746120C1260B002674B2 /* README.md */,
 				FEC4EA5F20C0ED1500EA2172 /* YSHWebViewController */,
 				FEC4EA7820C0ED1700EA2172 /* YSHWebViewControllerTests */,
 				FEC4EA8320C0ED1700EA2172 /* YSHWebViewControllerUITests */,
@@ -141,6 +149,9 @@
 			children = (
 				FEC4EA9320C0ED4B00EA2172 /* YSHWebViewController.h */,
 				FEC4EA9420C0ED4B00EA2172 /* YSHWebViewController.m */,
+				FEC4EA9720C1214900EA2172 /* YSHWebViewController.bundle */,
+				FE3E746320C1289A002674B2 /* YSHWeakScriptMessageDelegate.h */,
+				FE3E746420C1289A002674B2 /* YSHWeakScriptMessageDelegate.m */,
 			);
 			path = WebViewController;
 			sourceTree = "<group>";
@@ -248,7 +259,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEC4EA9820C1214900EA2172 /* YSHWebViewController.bundle in Resources */,
 				FEC4EA6D20C0ED1700EA2172 /* LaunchScreen.storyboard in Resources */,
+				FE3E746220C1260B002674B2 /* README.md in Resources */,
 				FEC4EA6A20C0ED1700EA2172 /* Assets.xcassets in Resources */,
 				FEC4EA6820C0ED1500EA2172 /* Main.storyboard in Resources */,
 			);
@@ -278,6 +291,7 @@
 				FEC4EA6520C0ED1500EA2172 /* ViewController.m in Sources */,
 				FEC4EA7020C0ED1700EA2172 /* main.m in Sources */,
 				FEC4EA9520C0ED4B00EA2172 /* YSHWebViewController.m in Sources */,
+				FE3E746520C1289A002674B2 /* YSHWeakScriptMessageDelegate.m in Sources */,
 				FEC4EA6220C0ED1500EA2172 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

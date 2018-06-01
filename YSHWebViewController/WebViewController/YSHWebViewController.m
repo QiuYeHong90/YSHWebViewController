@@ -5,6 +5,8 @@
 //  Created by 赵 on 2018/6/1.
 //  Copyright © 2018年 袁书辉. All rights reserved.
 //
+
+#import "YSHWeakScriptMessageDelegate.h"
 //系统版本判断
 #define SystemVersion [[UIDevice currentDevice].systemVersion intValue]
 
@@ -22,16 +24,51 @@
 /**1.添加UIProgressView属性 */
 @property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic,strong) WKWebViewConfiguration *wkConfig;
+
+/**
+ 返回按钮
+ */
+@property (nonatomic)UIBarButtonItem* customBackBarItem;
+
+/**
+ 关闭按钮
+ */
+@property (nonatomic)UIBarButtonItem* closeButtonItem;
+
+
+
+/**
+ 图片资源
+ */
+@property (nonatomic,strong) NSBundle *myBoundle;
 @end
 
 @implementation YSHWebViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self updateNavigationItems];
     [self ysh_loadUI];
+    [self addJSCallBlock];
 }
 
+/**
+ 动态更新导航上面的按钮
+ */
+-(void)updateNavigationItems{
+    if (self.wkWebView.canGoBack) {
+        UIBarButtonItem *spaceButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spaceButtonItem.width = -6.5;
+        
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+//        [self.navigationItem setLeftBarButtonItems:@[self.closeButtonItem] animated:NO];
+        
+        //弃用customBackBarItem，使用原生backButtonItem
+                [self.navigationItem setLeftBarButtonItems:@[spaceButtonItem,self.customBackBarItem,self.closeButtonItem] animated:NO];
+    }else{
+         [self.navigationItem setLeftBarButtonItems:@[self.customBackBarItem] animated:NO];
+    }
+}
 /**
  TODO:初始化UI
  */
@@ -53,17 +90,56 @@
     [self.wkWebView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     [self.wkWebView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
     [self loadWebView];
+    
+    
+    [self.view addSubview:self.wkWebView];
+    
+    
+    
+    
+    
+    
+}
+
+
+/**
+ 添加js回调事件
+ */
+-(void)addJSCallBlock
+{
+   
+    
+    WKUserContentController *userCC = self.wkConfig.userContentController;
+    //JS调用OC 添加处理脚本
+    YSHWeakScriptMessageDelegate * delete = [[YSHWeakScriptMessageDelegate  alloc]initWithDelegate:self];
+//    self.modelDelegate = delete;
+    [userCC addScriptMessageHandler:delete name:@"jsCallOC"];
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.wkWebView removeObserver:self forKeyPath:@"estimatedProgress"];
+    [self.wkWebView removeObserver:self forKeyPath:@"title"];
+    self.wkWebView.navigationDelegate = nil;
+   
 }
 
 -(void)loadWebView
 {
-    self.urlStr = @"http://www.qiurongkj.com/Luckdraw/index.html?QB=10";
+//    self.urlStr = @"http://www.qiurongkj.com/Luckdraw/index.html?QB=10";
+//    self.urlStr = @"https://www.baidu.com";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.urlStr]];
     
     request.timeoutInterval = 15.0f;
     [self.wkWebView loadRequest:request];
 }
 
+-(void)dealloc
+{
+    NSLog(@"释放了");
+}
 
 #pragma mark ------------------- 导航高度
 -(CGFloat)navHeight
@@ -78,7 +154,59 @@
     }
     return 20;
 }
+#pragma mark - events handler  点击事件
+-(void)customBackItemClicked{
+    if (self.wkWebView.canGoBack) {
+        [self.wkWebView goBack];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+}
+-(void)closeItemClicked{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark ------------------- 懒加载
+-(NSBundle *)myBoundle
+{
+    if (!_myBoundle) {
+        _myBoundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"YSHWebViewController" ofType:@"bundle"]];
+        if (nil == _myBoundle) { // Empty description resource file in `PYSearch.framework`.
+            _myBoundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"YSHWebViewController" ofType:@"bundle"]];
+        }
+    }
+    
+    return _myBoundle;
+}
+
+-(UIBarButtonItem*)customBackBarItem{
+    if (!_customBackBarItem) {
+        UIImage* backItemImage =[[self ysh_imageNamed:@"backItemImage"]  imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIImage* backItemHlImage = [[self ysh_imageNamed:@"backItemImage-hl"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        
+        UIButton* backButton = [[UIButton alloc] init];
+        [backButton setTitle:@"返回" forState:UIControlStateNormal];
+        [backButton setTitleColor:self.navigationController.navigationBar.tintColor forState:UIControlStateNormal];
+        [backButton setTitleColor:[self.navigationController.navigationBar.tintColor colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+        [backButton.titleLabel setFont:[UIFont systemFontOfSize:17]];
+        [backButton setImage:backItemImage forState:UIControlStateNormal];
+        [backButton setImage:backItemHlImage forState:UIControlStateHighlighted];
+        [backButton sizeToFit];
+        
+        [backButton addTarget:self action:@selector(customBackItemClicked) forControlEvents:UIControlEventTouchUpInside];
+        _customBackBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    }
+    return _customBackBarItem;
+}
+
+-(UIBarButtonItem*)closeButtonItem{
+    if (!_closeButtonItem) {
+        _closeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closeItemClicked)];
+    }
+    return _closeButtonItem;
+}
+
 - (WKWebView *)wkWebView {
     if (!_wkWebView) {
         _wkWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0,[self navHeight], self.view.frame.size.width,[UIScreen mainScreen].bounds.size.height-[self navHeight]) configuration:self.wkConfig];
@@ -93,11 +221,6 @@
         WKUserScript *noneSelectScript = [[WKUserScript alloc] initWithSource:javascript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
         
         [_wkWebView.configuration.userContentController addUserScript:noneSelectScript];
-        
-        WKUserContentController *userCC = self.wkConfig.userContentController;
-        //JS调用OC 添加处理脚本
-        [userCC addScriptMessageHandler:self name:@"jsCallOC"];
-        [self.view addSubview:_wkWebView];
         
         
         
@@ -180,7 +303,10 @@
     self.progressView.transform = CGAffineTransformMakeScale(1.0f, 1.5f);
     //防止progressView被网页挡住
     [self.view bringSubviewToFront:self.progressView];
+    [self updateNavigationItems];
 }
+
+
 
 /**
  //加载完成
@@ -189,7 +315,7 @@
 {
     NSLog(@"加载完成");
     
-    
+     [self updateNavigationItems];
     
     
 }
@@ -200,9 +326,7 @@
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请求超时请重试" preferredStyle:1];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:YSHLAZY(self.urlStr, @"")]];
-        request.timeoutInterval = 15.0f;
-        [self.wkWebView loadRequest:request];
+        [self.wkWebView reload];
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:okAction];
@@ -212,6 +336,7 @@
     //加载失败同样需要隐藏progressView
     //    [self hideLoadingHUD];
     self.progressView.hidden = YES;
+    [self updateNavigationItems];
 }
 
 //页面跳转
@@ -219,6 +344,7 @@
     //允许页面跳转
     //    NSLog(@"%@",navigationAction.request.URL);
     decisionHandler(WKNavigationActionPolicyAllow);
+    
 }
 
 #pragma mark - WKScriptMessageHandler
@@ -243,7 +369,7 @@
 {
     if ([message.name isEqualToString:@"jsCallOC"]) {
         NSLog(@"------%@",message.body);
-        
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -253,6 +379,30 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (UIImage *)ysh_imageNamed:(NSString *)name
+{
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    
+    UIImage * image = [self ysh_getImageViewWithScale:scale name:name];
+    
+    if (image==nil) {
+        image = [self ysh_getImageViewWithScale:2 name:name];
+    }
+    
+    return image;
+}
+
+
+-(UIImage *)ysh_getImageViewWithScale:(CGFloat)scale name:(NSString *)name
+{
+    name = 3.0 == scale ? [NSString stringWithFormat:@"%@@3x.png", name] : [NSString stringWithFormat:@"%@@2x.png", name];
+    UIImage *image = [UIImage imageWithContentsOfFile:[[self.myBoundle resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"img/%@",name]]];
+    
+    return image;
+}
+
+
 
 /*
 #pragma mark - Navigation

@@ -13,10 +13,16 @@
 
 
 
-@property (nonatomic,copy)  NSString * urlStr ;
+/**
+ 加载的url字符串
+ */
+@property (nonatomic,copy)   NSString * urlStr ;
 
 
-
+/**
+ 添加js回调事件
+ */
+-(void)addJSCallBlock;
 /**
  页面交互点击事件
  */
